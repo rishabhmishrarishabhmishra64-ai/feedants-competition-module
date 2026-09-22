@@ -2,12 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Competition = require('./models/Competition');
+const competitionRoutes = require('./routes/competitionRoutes');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/feedants').then(()=> console.log("Mongo Connected"));
+
+app.use('/api/competitions', competitionRoutes);
 
 app.get('/api/competitions/:id', async (req,res)=>{
   const comp = await Competition.findById(req.params.id);
